@@ -1,0 +1,174 @@
+openapi: 3.0.3
+
+info:
+  title: User Registration API
+  description: API endpoint for registering new users
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000
+    description: Local development server
+
+paths:
+  /api/users/register:
+    post:
+      summary: Register a new user
+      description: >
+        Creates a new user account using a username, email address
+        and password.
+      operationId: registerUser
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegistrationRequest"
+            examples:
+              validRegistration:
+                summary: Valid registration request
+                value:
+                  username: johnsmith
+                  email: john@example.com
+                  password: StrongPass123
+
+      responses:
+        "201":
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegistrationSuccess"
+              example:
+                message: User registered successfully
+                user:
+                  id: 1
+                  username: johnsmith
+                  email: john@example.com
+                  created_at: "2026-07-24T10:35:00"
+                  role: user
+
+        "400":
+          description: Invalid or incomplete request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                missingField:
+                  summary: Required field missing
+                  value:
+                    error: Missing required field
+                    message: email is required
+
+                invalidEmail:
+                  summary: Invalid email address
+                  value:
+                    error: Invalid email
+                    message: Please provide a valid email address
+
+                weakPassword:
+                  summary: Password is too short
+                  value:
+                    error: Weak password
+                    message: Password must be at least 8 characters long
+
+        "409":
+          description: Username or email already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                usernameTaken:
+                  summary: Username already exists
+                  value:
+                    error: Username taken
+                    message: Username is already in use
+
+                emailExists:
+                  summary: Email already exists
+                  value:
+                    error: Email exists
+                    message: An account with this email already exists
+
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: Server error
+                message: Failed to register user
+
+components:
+  schemas:
+    RegistrationRequest:
+      type: object
+      required:
+        - username
+        - email
+        - password
+      properties:
+        username:
+          type: string
+          description: Unique username for the account
+          example: johnsmith
+
+        email:
+          type: string
+          format: email
+          description: Unique email address for the account
+          example: john@example.com
+
+        password:
+          type: string
+          format: password
+          minLength: 8
+          description: Password containing at least 8 characters
+          example: StrongPass123
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+
+        username:
+          type: string
+          example: johnsmith
+
+        email:
+          type: string
+          format: email
+          example: john@example.com
+
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-07-24T10:35:00"
+
+        role:
+          type: string
+          example: user
+
+    RegistrationSuccess:
+      type: object
+      properties:
+        message:
+          type: string
+          example: User registered successfully
+
+        user:
+          $ref: "#/components/schemas/User"
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+
+        message:
+          type: string
