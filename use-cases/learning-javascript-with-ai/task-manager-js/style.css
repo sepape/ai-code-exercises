@@ -1,0 +1,132 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.task-manager {
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.description {
+    text-align: center;
+    color: #555;
+}
+
+.task-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+#taskInput {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+}
+
+#taskInput:focus {
+    outline: 2px solid #333;
+}
+
+#addTaskButton {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #222;
+    color: white;
+    font-size: 16px;
+}
+
+#addTaskButton:hover {
+    background-color: #444;
+}
+
+.error-message {
+    min-height: 20px;
+    margin: 10px 0;
+    color: #b00020;
+}
+
+#taskList {
+    padding: 0;
+    margin-top: 20px;
+    list-style: none;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.task-text {
+    flex: 1;
+    word-break: break-word;
+}
+
+.completed .task-text {
+    text-decoration: line-through;
+    color: #777;
+}
+
+.complete-button,
+.delete-button {
+    padding: 8px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.complete-button {
+    background-color: #e3f2e8;
+}
+
+.delete-button {
+    background-color: #f8dddd;
+}
+
+.complete-button:hover,
+.delete-button:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 500px) {
+    .task-form {
+        flex-direction: column;
+    }
+
+    #addTaskButton {
+        width: 100%;
+    }
+
+    .task-item {
+        flex-wrap: wrap;
+    }
+}
